@@ -11,7 +11,8 @@ const searchRecommendations = function (e) {
             let content = ""
             const theDiv = document.getElementById("resultsArea")
             tracks.forEach(function (entry) {
-                content += "<i class='fas fa-play-circle'></i> " + entry.name + " - " + entry.artists[0].name + "\n" + "<hr>"
+                const track = entry.name + " - " + entry.artists[0].name
+                content += "<i onclick='playSong(\"" + track + "\")' class='fas fa-play-circle '></i> " + track + "\n" + "<hr>"
             });
             theDiv.innerHTML = content
         }
@@ -21,6 +22,23 @@ const searchRecommendations = function (e) {
     };
     request.send()
 };
+
+const playSong = function (e) {
+    const request = new XMLHttpRequest()
+    request.open('POST', '/play?track=' + e, true)
+    request.onload = function () {
+        if (request.status == 200) {
+            let resp = request.responseText
+            let data = JSON.parse(resp)
+            let player = document.getElementById("ytplayer")
+            player.innerHTML = "<br><iframe width='100%' height='500' id='video' src='https://hooktube.com/embed/" + data.id + "?autoplay=1'></iframe>";
+        }
+    };
+    request.onerror = function () {
+        console.error(request.responseText)
+    };
+    request.send()
+}
 
 const form = document.getElementById('searchForm')
 form.addEventListener('submit', function (e) {

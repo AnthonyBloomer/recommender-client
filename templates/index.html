@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css"></link>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></link>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
                 </div>
                 <form action="" class="form" id="searchForm" method="POST">
                     <div class="input-group">
-                        <div class="input-group-prepend"> <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                        <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
                         </div>
                         <input id="q" name="query" class="form-control" placeholder="I can help you to find playlists based on a specific artist!">
                         <div class="input-group-addon">
@@ -28,7 +28,7 @@
                 </form>
             </div>
         </div>
-
+        <div style="display:none" id="ytplayer"></div>
         <div class="row">
             <div class="col-md-12">
                 <div id='resultsArea'>
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
 </html>

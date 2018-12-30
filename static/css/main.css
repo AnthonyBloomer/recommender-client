@@ -9,3 +9,7 @@ html, body{
 .container{
     width: 800px;
 }
+
+.fa-play-circle{
+    cursor: pointer;
+}
