@@ -1,20 +1,50 @@
+const request = new XMLHttpRequest()
+
+window.onload = function(){
+    request.open('POST', '/recommendations?genre=dance', true)
+    request.onload = function () {
+        if (request.status == 200) {
+            displayRecommendations(JSON.parse(request.responseText))
+        }
+    };
+    request.onerror = function () {
+        console.error(request.responseText)
+    };
+    request.send()
+}
+
+const displayRecommendations = function(recommendations) {
+    let tracks = recommendations.tracks
+    let content = ""
+    const theDiv = document.getElementById("resultsArea")
+    tracks.forEach(function (entry) {
+        const track = entry.name + " - " + entry.artists[0].name
+        content += "<div class='row'>"
+        content += "<div class='col-md-11'>"
+        content += "<i onclick='playSong(\"" + track + "\")' class='fas fa-play-circle '></i> " + track
+        content += "</div>"
+        content += "<div class='col-md-1'>"
+        content += "<a href='"+ entry.external_urls.spotify+ "'><i class='fab fa-spotify'></i></a>"
+        content += "</div>"
+        content += "</div>"
+        content+= "<hr>"
+    });
+    theDiv.innerHTML = content
+}
+
+const loadYoutubeFrame = function (videoId){
+    let player = document.getElementById("ytplayer")
+    const url = "https://hooktube.com/embed/" + videoId + "?autoplay=1"
+    player.innerHTML = "<iframe id='video' src='"+ url + "'></iframe>";
+}
+
 const searchRecommendations = function (e) {
     e.preventDefault()
-    const request = new XMLHttpRequest()
     const artist = document.getElementById("q").value
     request.open('POST', '/recommendations?artist=' + artist, true)
     request.onload = function () {
         if (request.status == 200) {
-            let resp = request.responseText
-            let recommendations = JSON.parse(resp)
-            let tracks = recommendations.tracks
-            let content = ""
-            const theDiv = document.getElementById("resultsArea")
-            tracks.forEach(function (entry) {
-                const track = entry.name + " - " + entry.artists[0].name
-                content += "<i onclick='playSong(\"" + track + "\")' class='fas fa-play-circle '></i> " + track + "\n" + "<hr>"
-            });
-            theDiv.innerHTML = content
+            displayRecommendations(JSON.parse(request.responseText))
         }
     };
     request.onerror = function () {
@@ -24,14 +54,12 @@ const searchRecommendations = function (e) {
 };
 
 const playSong = function (e) {
-    const request = new XMLHttpRequest()
     request.open('POST', '/play?track=' + e, true)
     request.onload = function () {
         if (request.status == 200) {
             let resp = request.responseText
             let data = JSON.parse(resp)
-            let player = document.getElementById("ytplayer")
-            player.innerHTML = "<br><iframe width='100%' height='500' id='video' src='https://hooktube.com/embed/" + data.id + "?autoplay=1'></iframe>";
+            loadYoutubeFrame(data.id)
         }
     };
     request.onerror = function () {
@@ -48,11 +76,3 @@ form.addEventListener('submit', function (e) {
 
 const elements = document.getElementById('myElement')
 elements.onclick = searchRecommendations;
-
-
-
-
-
-
-
-

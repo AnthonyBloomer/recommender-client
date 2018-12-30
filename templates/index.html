@@ -5,38 +5,42 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="text-center">
-                    <h1>Music Recommender</h1>
-                </div>
-                <form action="" class="form" id="searchForm" method="POST">
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
-                        </div>
-                        <input id="q" name="query" class="form-control" placeholder="I can help you to find playlists based on a specific artist!">
-                        <div class="input-group-addon">
-                            <button id="myElement" class="btn btn-success" type="button">Search</button>
-                        </div>
-                    </div>
-                </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>Music Recommender</h1>
+                <h5>Powered using the <a
+                        href="https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/">Spotify
+                    Recommendations API</a></h5>
             </div>
-        </div>
-        <div style="display:none" id="ytplayer"></div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id='resultsArea'>
+            <form action="" class="form" id="searchForm" method="POST">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i
+                            class="fas fa-search"></i></span></div>
+                    <input id="q" name="query" class="form-control"
+                           placeholder="I can help you to find playlists based on a specific artist!">
+                    <div class="input-group-addon">
+                        <button id="myElement" class="btn btn-success" type="button">Search</button>
+                    </div>
                 </div>
+            </form>
+        </div>
+    </div>
+    <div style="display:none" id="ytplayer"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id='resultsArea'>
             </div>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</div>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
 </html>

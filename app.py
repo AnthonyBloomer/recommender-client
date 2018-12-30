@@ -29,12 +29,25 @@ def play():
 
 @app.route('/recommendations', methods=['POST'])
 def recommendations():
-    if not request.args.get('artist'):
-        return jsonify({
-            'error': 'Artist is required.'
-        })
     recommender = Recommender()
-    recommender.artists = request.args.get('artist')
+    if not request.args.get('artist') and not request.args.get('genre') and not request.args.get('tracks'):
+        return jsonify({
+            'error': 'At least one artist, genre or track is required.'
+        })
+    if request.args.get('artist'):
+        recommender.artists = request.args.get('artist')
+
+    if request.args.get('genre'):
+        recommender.genres = request.args.get('genre')
+
+    if request.args.get('tracks'):
+        recommender.tracks = request.args.get('tracks')
+
+    recommender.tunable_track_attributes = {
+        'min_popularity': 50,
+        'max_popularity': 65,
+    }
+
     return jsonify(recommender.find_recommendations())
 
 
