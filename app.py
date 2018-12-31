@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from recommender.api import Recommender
 import requests
 import os
+import json
 
 app = Flask(__name__)
 
@@ -30,7 +31,7 @@ def play():
 @app.route('/recommendations', methods=['POST'])
 def recommendations():
     recommender = Recommender()
-    if not request.args.get('artist') and not request.args.get('genre') and not request.args.get('tracks'):
+    if not request.args.get('artist') and not request.args.get('genre') and not request.args.get('track'):
         return jsonify({
             'error': 'At least one artist, genre or track is required.'
         })
@@ -40,8 +41,8 @@ def recommendations():
     if request.args.get('genre'):
         recommender.genres = request.args.get('genre')
 
-    if request.args.get('tracks'):
-        recommender.tracks = request.args.get('tracks')
+    if request.args.get('track'):
+        recommender.tracks = request.args.get('track')
 
     recommender.tunable_track_attributes = {
         'min_popularity': request.args.get('min_popularity'),
@@ -53,7 +54,9 @@ def recommendations():
 
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('index.html')
+    with open('resources/genres.json') as f:
+        data = json.load(f)
+    return render_template('index.html', genres=data['genres'])
 
 
 if __name__ == '__main__':

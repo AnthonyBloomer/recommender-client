@@ -15,19 +15,34 @@
         <div class="col-md-12">
             <div class="text-center">
                 <h1>Music Recommender</h1>
+
                 <h5>Powered using the <a
                         href="https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/">Spotify
                     Recommendations API</a></h5>
+                <hr>
             </div>
             <form action="" class="form" id="searchForm" method="POST">
-                <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><i
-                            class="fas fa-search"></i></span></div>
-                    <input id="q" name="query" class="form-control"
-                           placeholder="I can help you to find playlists based on a specific artist!">
-                    <div class="input-group-addon">
-                        <button id="myElement" class="btn btn-success" type="button">Search</button>
-                    </div>
+                <div class="form-group">
+                    <label for="artist">Artists</label>
+                    <input id="artist" name="artist" class="form-control"
+                           placeholder="Artist name">
+                </div>
+                <div class="form-group">
+                    <label for="track">Tracks</label>
+                    <input id="track" name="track" class="form-control"
+                           placeholder="Track name ">
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genres</label>
+                    <select id="genre" name="genre" class="form-control form-control-lg">
+                        {% for genre in genres %}
+                        <option class="form-control" value="{{ genre }}">{{ genre }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <button id="findRecommendations" class="btn btn-success" type="submit">Search</button>
                 </div>
             </form>
         </div>
