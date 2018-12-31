@@ -3,22 +3,23 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-        <div style="display:none" id="alertBox">
-            <div class="alert" role="alert">
-              <span id="alertMessage"></span>
-            </div>
-          </div>
-      	<form>
+
+      	<form id="searchForm">
             <div class="input-group">
               <div class="input-group-prepend"> <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
               </div>
-              <input id="query" name="artist" class="form-control" placeholder="Enter artist name...">
+              <input id="artist" name="artist" class="form-control" placeholder="Enter artist name...">
               <div class="input-group-addon">
                 <button id="findRecommendations" class="btn btn-primary" type="button">Search</button>
               </div>
             </div>
           </form>
-
+          <br>
+          <div style="display:none" id="alertBox">
+            <div class="alert" role="alert">
+              <span id="alertMessage"></span>
+            </div>
+          </div>
       <div style="display: none" id="videoArea">
         <br>
         <div class="card">

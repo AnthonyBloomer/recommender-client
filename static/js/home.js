@@ -54,7 +54,6 @@ const displayRecommendations = recommendations => {
     tracks.forEach(({name, artists, external_urls}) => {
         let displayName = `${name} - ${artists[0].name}`
         let cleanDisplayName = displayName.replace(/["']/g, "")
-        console.log(cleanDisplayName)
         content += "<div class='row'>"
         content += "<div class='col-md-12'>"
         content += `<a style='cursor:pointer' onclick='playSong("${cleanDisplayName}")'>${displayName}</a>`
@@ -69,9 +68,7 @@ const displayRecommendations = recommendations => {
 const searchRecommendations = e => {
     e.preventDefault()
     let artist = document.getElementById("artist").value
-    let genre = document.getElementById("genre").value
-    let track = document.getElementById("track").value
-    request.open('POST', `/recommendations?artist=${artist}&genre=${genre}&track=${track}`, true)
+    request.open('POST', `/recommendations?artist=${artist}`, true)
     request.onload = () => {
         if (request.status == 200) {
             displayRecommendations(JSON.parse(request.responseText))

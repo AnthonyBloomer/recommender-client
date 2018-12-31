@@ -9,9 +9,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-default">
-  <a class="navbar-brand" href="/">Music Recommender</a>
-</nav>
+  <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="/"><i class="fas fa-music"></i> Music Recommender</a>
+        </nav>
+  </div>
 <br>
 {% block content %}{% endblock %}
 </body>
