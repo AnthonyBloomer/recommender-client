@@ -44,8 +44,8 @@ def recommendations():
         recommender.tracks = request.args.get('tracks')
 
     recommender.tunable_track_attributes = {
-        'min_popularity': 50,
-        'max_popularity': 65,
+        'min_popularity': request.args.get('min_popularity'),
+        'max_popularity': request.args.get('max_popularity'),
     }
 
     return jsonify(recommender.find_recommendations())

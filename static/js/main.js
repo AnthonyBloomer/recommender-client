@@ -1,16 +1,31 @@
 const request = new XMLHttpRequest()
 
 window.onload = function(){
-    request.open('POST', '/recommendations?genre=dance', true)
+    genres = ['ambient',
+              'chicago-house',
+              'classical',
+              'deep-house',
+              'detroit-techno',
+              'drum-and-bass',
+              'folk',
+              'house',
+              'idm',
+              'minimal-techno',
+              'progressive-house',
+              'techno']
+    const shuffled = genres.sort(() => .5 - Math.random())
+    let selected =shuffled.slice(0, 1).join()
+    request.open('POST', '/recommendations?genre='+ selected + '&min_popularity=50', true)
+    request.send()
     request.onload = function () {
         if (request.status == 200) {
+            console.log(request.responseText)
             displayRecommendations(JSON.parse(request.responseText))
         }
     };
     request.onerror = function () {
         console.error(request.responseText)
     };
-    request.send()
 }
 
 const displayRecommendations = function(recommendations) {
