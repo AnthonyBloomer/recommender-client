@@ -52,14 +52,12 @@ const displayRecommendations = recommendations => {
     const theDiv = document.getElementById("resultsArea")
     content = "<h4>Tracks</h4>"
     tracks.forEach(({name, artists, external_urls}) => {
-        const track = `${name} - ${artists[0].name}`
+        let displayName = `${name} - ${artists[0].name}`
+        let cleanDisplayName = displayName.replace(/["']/g, "")
+        console.log(cleanDisplayName)
         content += "<div class='row'>"
-        content += "<div class='col-md-11'>"
-        content += `${track}`
-        content += "</div>"
-        content += "<div class='col-md-1'>"
-        content += `<a href='${external_urls.spotify}'><i class='fab fa-spotify'></i></a>  `
-        content += `<a onclick='playSong("${track}")'><i style='color: white; cursor: pointer' class='fab fa-youtube'></i></a>`
+        content += "<div class='col-md-12'>"
+        content += `<a style='cursor:pointer' onclick='playSong("${cleanDisplayName}")'>${displayName}</a>`
         content += "</div>"
         content += "</div>"
         content+= "<hr>"
