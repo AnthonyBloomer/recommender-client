@@ -4,6 +4,7 @@
 
 html, body{
     font-size: 16px;
+    font-family: 'Lato', sans-serif;
 }
 
 .container{
@@ -13,3 +14,7 @@ html, body{
 .fa-play-circle{
     cursor: pointer;
 }
+
+.capitalize {
+    text-transform: capitalize;   
+  }

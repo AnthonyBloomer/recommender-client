@@ -6,6 +6,10 @@ import json
 
 app = Flask(__name__)
 
+def load_genres():
+    with open('resources/genres.json') as f:
+        data = json.load(f)
+    return data
 
 @app.route('/play', methods=['POST'])
 def play():
@@ -52,11 +56,15 @@ def recommendations():
     return jsonify(recommender.find_recommendations())
 
 
+@app.route("/genres", methods=['POST'])
+def genres():
+    genres = load_genres()['genres']
+    return jsonify(genres)
+
 @app.route("/", methods=['GET'])
 def home():
-    with open('resources/genres.json') as f:
-        data = json.load(f)
-    return render_template('index.html', genres=data['genres'])
+    genres = load_genres()['genres']
+    return render_template('index.html', genres=genres)
 
 
 if __name__ == '__main__':

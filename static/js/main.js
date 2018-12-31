@@ -1,42 +1,49 @@
 const request = new XMLHttpRequest()
 
 window.onload = () => {
-    genres = ['ambient',
-              'chicago-house',
-              'classical',
-              'deep-house',
-              'detroit-techno',
-              'drum-and-bass',
-              'folk',
-              'house',
-              'idm',
-              'minimal-techno',
-              'progressive-house',
-              'techno']
+    request.open("POST", '/genres', true)
+    request.onload = () => {
+        if (request.status === 200 || request.status === 0) {
+            resp = JSON.parse(request.responseText)
+            loadGenres(resp)
+        } else {
+            displayAlert(JSON.parse(request.responseText), "alert-danger")
+        }
+    }
+
+    request.send(null)
+}
+
+const loadGenres = (genres) => {
     const shuffled = genres.sort(() => .5 - Math.random())
-    let selected =shuffled.slice(0, 1).join()
-    request.open('POST', `/recommendations?genre=${selected}&min_popularity=50`, true)
+    let selected = shuffled.slice(0, 1).join()
+    request.open('POST', `/recommendations?genre=${selected}&min_popularity=40`, true)
     request.send()
     request.onload = () => {
         if (request.status == 200) {
             displayRecommendations(JSON.parse(request.responseText))
+            selected = selected.replace("-", ' ');
+            displayAlert(`Here's some <span class='capitalize'>${selected}</span> music we thought you'd like...`, "alert-info")
         } else {
-            displayError(JSON.parse(request.responseText))
+            parsed = JSON.parse(request.responseText)
+            displayAlert(parsed.error, "alert-danger")
         }
     };
     request.onerror = () => {
-        console.error(JSON.parse(request.responseText))
+        parsed = JSON.parse(request.responseText)
+        displayAlert(parsed.error, "alert-danger")
     };
 }
 
-const hideError = () => {
+const hideAlert = () => {
     document.getElementById("alertBox").style.display = 'none'
     document.getElementById("alertMessage").innerHTML = ""
 }
 
-const displayError = errorMessage => {
+const displayAlert = (alertMessage, alertType) => {
     document.getElementById("alertBox").style.display = 'block'
-    document.getElementById("alertMessage").innerHTML = "Error: " + errorMessage.error
+    document.getElementById("alertBox").classList.add(alertType);
+    document.getElementById("alertMessage").innerHTML = alertMessage
 }
 
 const displayRecommendations = recommendations => {
@@ -68,7 +75,7 @@ const loadYoutubeFrame = videoId => {
 const searchRecommendations = e => {
     e.preventDefault()
 
-    hideError()
+    hideAlert()
 
     let artist = document.getElementById("artist").value
     let genre = document.getElementById("genre").value
@@ -80,12 +87,13 @@ const searchRecommendations = e => {
             displayRecommendations(JSON.parse(request.responseText))
             document.getElementById("resultsArea").scrollIntoView();
         } else {
-            displayError(JSON.parse(request.responseText))
+            parsed = JSON.parse(request.responseText)
+            displayAlert(parsed.error, "alert-danger")
         }
     };
     request.onerror = () => {
-        console.error(request.responseText)
-        displayError(JSON.parse(request.responseText))
+        parsed = JSON.parse(request.responseText)
+        displayAlert(parsed.error, "alert-danger")
 
     };
     request.send()
@@ -100,12 +108,13 @@ const playSong = e => {
             let data = JSON.parse(resp)
             loadYoutubeFrame(data.id)
         } else {
-            displayError(JSON.parse(request.responseText))
+            parsed = JSON.parse(request.responseText)
+            displayAlert(parsed.error, "alert-danger")
         }
     };
     request.onerror = () => {
-        console.error(request.responseText)
-        displayError(request.responseText)
+        parsed = JSON.parse(request.responseText)
+        displayAlert(parsed.error, "alert-danger")
     };
     request.send()
 }

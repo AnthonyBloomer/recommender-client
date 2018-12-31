@@ -1,61 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    <link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
-
 <body>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="text-center">
-                <h1>Music Recommender</h1>
-
-                <h5>Powered using the <a
-                        href="https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/">Spotify
-                    Recommendations API</a></h5>
+                <h3>Music Recommender</h3>
+                <h6>Powered using the <a href="https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/">Spotify Recommendations API</a></h6>
                 <hr>
             </div>
 
-            <div style="display:none" id="alertBox">
-                <div class="alert alert-danger" role="alert">
-                    <span id="alertMessage"></span>
-                </div>
+            <div class="card">
+            <div class="card-body">
+                    <form action="" id="searchForm" method="POST">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <label for="artist">Artists</label>
+                                            <input id="artist" name="artist" class="form-control"
+                                                   placeholder="Artist name">
+                                    </div>
+                                    <div class="col-md-6">
+                                            <label for="track">Tracks</label>
+                                            <input id="track" name="track" class="form-control"
+                                                   placeholder="Track name ">
+                                    </div>
+                                </div>
+                                
+                            </div>
+            
+                            
+                            <div class="form-group">
+                                <label for="genre">Genres</label>
+                                <select id="genre" name="genre" class="form-control">
+                                    <option class="form-control" value="">Search...</option>
+                                    {% for genre in genres %}
+                                    <option class="form-control" value="{{ genre }}">{{ genre }}</option>
+                                    {% endfor %}
+                                </select>
+            
+                            </div>
+                            <div class="form-group float-right">
+                                <button id="findRecommendations" class="btn btn-success" type="submit">Search</button>
+                            </div>
+                        </form>
+            </div>
             </div>
 
+            <br>
+          
 
-            <form action="" id="searchForm" method="POST">
-                <div class="form-group">
-                    <label for="artist">Artists</label>
-                    <input id="artist" name="artist" class="form-control form-control-lg"
-                           placeholder="Artist name">
-                </div>
-                <div class="form-group">
-                    <label for="track">Tracks</label>
-                    <input id="track" name="track" class="form-control form-control-lg"
-                           placeholder="Track name ">
-                </div>
-                <div class="form-group">
-                    <label for="genre">Genres</label>
-                    <select id="genre" name="genre" class="form-control form-control-lg">
-                        <option class="form-control" value="">Search...</option>
-                        {% for genre in genres %}
-                        <option class="form-control" value="{{ genre }}">{{ genre }}</option>
-                        {% endfor %}
-                    </select>
 
-                </div>
-                <div class="form-group">
-                    <button id="findRecommendations" class="btn btn-success" type="submit">Search</button>
-                </div>
-            </form>
         </div>
     </div>
+
+    <div style="display:none" id="alertBox">
+            <div class="alert" role="alert">
+                <span id="alertMessage"></span>
+            </div>
+        </div>
     <div style="display:none" id="ytplayer"></div>
     <div class="row">
         <div class="col-md-12">
