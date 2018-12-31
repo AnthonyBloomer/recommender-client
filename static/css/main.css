@@ -7,14 +7,14 @@ html, body{
     font-family: 'Lato', sans-serif;
 }
 
-.container{
-    width: 700px;
-}
-
 .fa-play-circle{
     cursor: pointer;
 }
 
+.container{
+    width: 1000px;
+}
+
 .capitalize {
     text-transform: capitalize;   
-  }
+}

@@ -35,34 +35,9 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-          <form action="" id="searchForm" method="POST">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="artist">Artists</label>
-                  <input id="artist" name="artist" class="form-control"
-                         placeholder="Artist name">
-                </div>
-                <div class="col-md-4">
-                  <label for="track">Tracks</label>
-                  <input id="track" name="track" class="form-control"
-                         placeholder="Track name ">
-                </div>
-                <div class="col-md-4">
-                  <label for="genre">Genres</label>
-                  <select id="genre" name="genre" class="form-control">
-                    <option class="form-control" value="">Search...</option>
-                    {% for genre in genres %}
-                    <option class="form-control" value="{{ genre }}">{{ genre }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group float-right">
-              <button id="findRecommendations" class="btn btn-success" type="submit">Search</button>
-            </div>
-          </form>
+          <div id="ytplayer">
+            <iframe id='video' frameborder="0" width="100%" height="500px" src='https://hooktube.com/embed/{{video_id}}?autoplay=1'></iframe>
+          </div>
         </div>
       </div>
       <br>
@@ -73,17 +48,10 @@
       <span id="alertMessage"></span>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div id='resultsArea'>
-      </div>
-    </div>
-  </div>
   <h6 class="text-muted">Powered using the <a
       href="https://developer.spotify.com/documentation/web-api/reference/browse/get-recommendations/">Spotify
     Recommendations API</a></h6>
 </div>
-<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 
 </html>

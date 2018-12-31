@@ -55,21 +55,16 @@ const displayRecommendations = recommendations => {
         const track = `${name} - ${artists[0].name}`
         content += "<div class='row'>"
         content += "<div class='col-md-11'>"
-        content += `<i onclick='playSong("${track}")' class='fas fa-play-circle '></i> ${track}`
+        content += `${track}`
         content += "</div>"
         content += "<div class='col-md-1'>"
-        content += `<a href='${external_urls.spotify}'><i class='fab fa-spotify'></i></a>`
+        content += `<a href='${external_urls.spotify}'><i class='fab fa-spotify'></i></a>  `
+        content += `<a onclick='playSong("${track}")'><i style='color: white; cursor: pointer' class='fab fa-youtube'></i></a>`
         content += "</div>"
         content += "</div>"
         content+= "<hr>"
     });
     theDiv.innerHTML = content
-}
-
-const loadYoutubeFrame = videoId => {
-    let player = document.getElementById("ytplayer")
-    const url = `https://hooktube.com/embed/${videoId}?autoplay=1`
-    player.innerHTML = `<iframe id='video' src='${url}'></iframe>`;
 }
 
 const searchRecommendations = e => {
@@ -106,7 +101,7 @@ const playSong = e => {
         if (request.status == 200) {
             let resp = request.responseText
             let data = JSON.parse(resp)
-            loadYoutubeFrame(data.id)
+            window.location.href = '/video?id='+data.id;
         } else {
             parsed = JSON.parse(request.responseText)
             displayAlert(parsed.error, "alert-danger")
