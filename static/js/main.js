@@ -20,17 +20,30 @@ window.onload = () => {
     request.onload = () => {
         if (request.status == 200) {
             displayRecommendations(JSON.parse(request.responseText))
+        } else {
+            displayError(JSON.parse(request.responseText))
         }
     };
     request.onerror = () => {
-        console.error(request.responseText)
+        console.error(JSON.parse(request.responseText))
     };
+}
+
+const hideError = () => {
+    document.getElementById("alertBox").style.display = 'none'
+    document.getElementById("alertMessage").innerHTML = ""
+}
+
+const displayError = errorMessage => {
+    document.getElementById("alertBox").style.display = 'block'
+    document.getElementById("alertMessage").innerHTML = "Error: " + errorMessage.error
 }
 
 const displayRecommendations = recommendations => {
     let tracks = recommendations.tracks
     let content = ""
     const theDiv = document.getElementById("resultsArea")
+    content = "<h4>Tracks</h4>"
     tracks.forEach(({name, artists, external_urls}) => {
         const track = `${name} - ${artists[0].name}`
         content += "<div class='row'>"
@@ -55,21 +68,27 @@ const loadYoutubeFrame = videoId => {
 const searchRecommendations = e => {
     e.preventDefault()
 
+    hideError()
+
     let artist = document.getElementById("artist").value
     let genre = document.getElementById("genre").value
     let track = document.getElementById("track").value
 
     request.open('POST', `/recommendations?artist=${artist}&genre=${genre}&track=${track}`, true)
-    request.send()
     request.onload = () => {
         if (request.status == 200) {
-            console.log(request.responseText)
             displayRecommendations(JSON.parse(request.responseText))
+            document.getElementById("resultsArea").scrollIntoView();
+        } else {
+            displayError(JSON.parse(request.responseText))
         }
     };
     request.onerror = () => {
         console.error(request.responseText)
+        displayError(JSON.parse(request.responseText))
+
     };
+    request.send()
 
 };
 
@@ -80,10 +99,13 @@ const playSong = e => {
             let resp = request.responseText
             let data = JSON.parse(resp)
             loadYoutubeFrame(data.id)
+        } else {
+            displayError(JSON.parse(request.responseText))
         }
     };
     request.onerror = () => {
         console.error(request.responseText)
+        displayError(request.responseText)
     };
     request.send()
 }

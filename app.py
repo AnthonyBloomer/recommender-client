@@ -12,7 +12,7 @@ def play():
     if not request.args.get('track'):
         return jsonify({
             'error': 'Track is required.'
-        })
+        }), 400
     params = {
         'q': request.args.get('track'),
         'part': 'id,snippet',
@@ -34,7 +34,7 @@ def recommendations():
     if not request.args.get('artist') and not request.args.get('genre') and not request.args.get('track'):
         return jsonify({
             'error': 'At least one artist, genre or track is required.'
-        })
+        }), 400
     if request.args.get('artist'):
         recommender.artists = request.args.get('artist')
 

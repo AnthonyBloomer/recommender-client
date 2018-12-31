@@ -21,20 +21,29 @@
                     Recommendations API</a></h5>
                 <hr>
             </div>
+
+            <div style="display:none" id="alertBox">
+                <div class="alert alert-danger" role="alert">
+                    <span id="alertMessage"></span>
+                </div>
+            </div>
+
+
             <form action="" id="searchForm" method="POST">
                 <div class="form-group">
                     <label for="artist">Artists</label>
-                    <input id="artist" name="artist" class="form-control"
+                    <input id="artist" name="artist" class="form-control form-control-lg"
                            placeholder="Artist name">
                 </div>
                 <div class="form-group">
                     <label for="track">Tracks</label>
-                    <input id="track" name="track" class="form-control"
+                    <input id="track" name="track" class="form-control form-control-lg"
                            placeholder="Track name ">
                 </div>
                 <div class="form-group">
                     <label for="genre">Genres</label>
                     <select id="genre" name="genre" class="form-control form-control-lg">
+                        <option class="form-control" value="">Search...</option>
                         {% for genre in genres %}
                         <option class="form-control" value="{{ genre }}">{{ genre }}</option>
                         {% endfor %}
