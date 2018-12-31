@@ -63,13 +63,6 @@ def genres():
     genres = load_genres()['genres']
     return jsonify(genres)
 
-
-@app.route("/video", methods=['GET'])
-def video():
-    video_id = request.args.get('id')
-    return render_template('video.html', video_id=video_id)
-
-
 @app.route("/", methods=['GET'])
 def home():
     genres = load_genres()['genres']

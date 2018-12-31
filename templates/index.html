@@ -3,48 +3,25 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <form action="#" id="searchForm" method="POST">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="artist">Artists</label>
-                  <input id="artist" name="artist" class="form-control"
-                         placeholder="Artist name">
-                </div>
-                <div class="col-md-4">
-                  <label for="track">Tracks</label>
-                  <input id="track" name="track" class="form-control"
-                         placeholder="Track name ">
-                </div>
-                <div class="col-md-4">
-                  <label for="genre">Genres</label>
-                  <select id="genre" name="genre" class="form-control">
-                    <option class="form-control" value="">Search...</option>
-                    {% for genre in genres %}
-                    <option class="form-control" value="{{ genre }}">{{ genre }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group float-right">
-              <button id="findRecommendations" class="btn btn-success" type="submit">Search</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <br>
       <div style="display:none" id="alertBox">
         <div class="alert" role="alert">
           <span id="alertMessage"></span>
         </div>
       </div>
-      <div class="col-md-12">
-        <div id='resultsArea'>
+      <div style="display: none" id="videoArea">
+        
+        <div class="card">
+          <div class="card-body">
+            <div id="ytplayer">
+              <iframe id='video' frameborder="0" width="100%" height="500px" src=''></iframe>
+            </div>
+            <a class="btn btn-info" onclick="displayResults()" href="#"><i class="fas fa-chevron-left"></i> Back to results</a>
+            <button onclick="findSimilarTracks()" id="moreLikeThis" class="btn btn-primary"><i class="fas fa-headphones-alt"></i> More like this</button>
+          </div>
         </div>
       </div>
+        <div id='resultsArea'>
+        </div>
     </div>
   </div>
 </div>

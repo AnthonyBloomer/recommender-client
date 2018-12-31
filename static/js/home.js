@@ -65,17 +65,14 @@ const displayRecommendations = recommendations => {
         content+= "<hr>"
     });
     theDiv.innerHTML = content
+    displayResults()
 }
 
 const searchRecommendations = e => {
     e.preventDefault()
-
-    hideAlert()
-
     let artist = document.getElementById("artist").value
     let genre = document.getElementById("genre").value
     let track = document.getElementById("track").value
-
     request.open('POST', `/recommendations?artist=${artist}&genre=${genre}&track=${track}`, true)
     request.onload = () => {
         if (request.status == 200) {
@@ -94,13 +91,51 @@ const searchRecommendations = e => {
 
 };
 
+const loadYoutubeFrame = videoId => {
+    const url = `https://hooktube.com/embed/${videoId}?autoplay=1`
+    document.getElementById("video").src = url
+}
+
+const displayResults = () => {
+    document.getElementById("videoArea").style.display = 'none'
+    document.getElementById("resultsArea").style.display = 'block'
+}
+
+const displayVideo = () => {
+    document.getElementById("resultsArea").style.display = 'none'
+    document.getElementById("videoArea").style.display = 'block'
+}
+
+const findSimilarTracks = () => {
+    let track = document.getElementById("moreLikeThis").name
+    request.open('POST', `/recommendations?track=${track}`, true)
+    request.onload = () => {
+        if (request.status == 200) {
+            displayRecommendations(JSON.parse(request.responseText))
+        } else {
+            parsed = JSON.parse(request.responseText)
+            displayAlert(parsed.error, "alert-danger")
+        }
+    };
+    request.onerror = () => {
+        parsed = JSON.parse(request.responseText)
+        displayAlert(parsed.error, "alert-danger")
+
+    };
+    request.send()
+}
+
 const playSong = e => {
+    hideAlert()
     request.open('POST', `/play?track=${e}`, true)
     request.onload = () => {
         if (request.status == 200) {
             let resp = request.responseText
             let data = JSON.parse(resp)
-            window.location.href = '/video?id='+data.id;
+            displayVideo()
+            loadYoutubeFrame(data.id) 
+            displayAlert(`<i class='fas fa-play'></i> Playing <a href='#' onclick='displayVideo()'>${e}</a>.`, "alert-info")
+            document.getElementById("moreLikeThis").name = e
         } else {
             parsed = JSON.parse(request.responseText)
             displayAlert(parsed.error, "alert-danger")
