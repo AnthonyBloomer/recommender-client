@@ -80,7 +80,6 @@ const searchRecommendations = e => {
     request.onload = () => {
         if (request.status == 200) {
             displayRecommendations(JSON.parse(request.responseText))
-            document.getElementById("resultsArea").scrollIntoView();
         } else {
             parsed = JSON.parse(request.responseText)
             displayAlert(parsed.error, "alert-danger")
