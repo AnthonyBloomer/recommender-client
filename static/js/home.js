@@ -32,8 +32,6 @@ const loadGenres = (genres) => {
     request.onload = () => {
         if (request.status == 200) {
             displayRecommendations(JSON.parse(request.responseText))
-            selected = selected.replace("-", ' ');
-            displayAlert(`Here's some <span class='capitalize'>${selected}</span> music we thought you'd like...`, "alert-info")
         } else {
             displayAlert(request.responseText, "alert-danger")
         }
