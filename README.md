@@ -1,5 +1,7 @@
 # Music Recommender
 
+A web application to discover new music. Powered using the Spotify Recommendations API.
+
 ## Development
 
 Export the following environment variables:
