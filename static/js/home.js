@@ -1,5 +1,15 @@
 const request = new XMLHttpRequest()
 
+document.getElementById('searchTypeSelector').addEventListener('input', function (evt) {
+    if (this.value === 'genre'){
+        document.getElementById('searchQuery').style.display = 'none'
+        document.getElementById('genreSelector').style.display = 'block'
+    } else {
+        document.getElementById('genreSelector').style.display = 'none'
+        document.getElementById('searchQuery').style.display = 'block'
+    }
+});
+
 window.onload = () => {
     request.open("POST", '/genres', true)
     request.onload = () => {
@@ -17,7 +27,7 @@ window.onload = () => {
 const loadGenres = (genres) => {
     const shuffled = genres.sort(() => .5 - Math.random())
     let selected = shuffled.slice(0, 1).join()
-    request.open('POST', `/recommendations?genre=${selected}&min_popularity=40`, true)
+    request.open('POST', `/recommendations?q=${selected}&t=genre&min_popularity=40`, true)
     request.send()
     request.onload = () => {
         if (request.status == 200) {
@@ -62,8 +72,14 @@ const displayRecommendations = recommendations => {
 
 const searchRecommendations = e => {
     e.preventDefault()
-    let artist = document.getElementById("artist").value
-    request.open('POST', `/recommendations?artist=${artist}`, true)
+    let searchQuery = ""
+    let searchType = document.getElementById("searchTypeSelector").value
+    if (searchType === 'genre'){
+        searchQuery = document.getElementById("genreSelector").value
+    } else {
+        searchQuery = document.getElementById("searchQuery").value
+    }
+    request.open('POST', `/recommendations?q=${searchQuery}&t=${searchType}`, true)
     request.onload = () => {
         if (request.status == 200) {
             parsed = JSON.parse(request.responseText)
@@ -98,13 +114,12 @@ const displayVideo = () => {
 
 const findSimilarTracks = () => {
     let track = document.getElementById("moreLikeThis").name
-    request.open('POST', `/recommendations?track=${track}`, true)
+    request.open('POST', `/recommendations?q=${track}&t=track`, true)
     request.onload = () => {
         if (request.status == 200) {
-            let json = JSON.parse(request.responseText)
             let parsed = JSON.parse(request.responseText)
             if (parsed.hasOwnProperty('error')){
-                displayAlert("Status: " + parsed.error.status + "Error: " + parsed.error.message, "alert-danger")
+                displayAlert(`Status: ${parsed.error.status}Error: ${parsed.error.message}`, "alert-danger")
             } else {
                 displayRecommendations(parsed)
             }

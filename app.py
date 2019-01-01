@@ -3,9 +3,9 @@ from recommender.api import Recommender
 import requests
 import os
 import json
+import newrelic
 
 app = Flask(__name__)
-
 
 def load_genres():
     with open('resources/genres.json') as f:
@@ -43,24 +43,15 @@ def play():
 @app.route('/recommendations', methods=['POST'])
 def recommendations():
     recommender = Recommender()
-    if not request.args.get('artist') and not request.args.get('genre') and not request.args.get('track'):
-        return jsonify({
-            'error': 'At least one artist, genre or track is required.'
-        }), 400
-    if request.args.get('artist'):
-        recommender.artists = request.args.get('artist')
-
-    if request.args.get('genre'):
-        recommender.genres = request.args.get('genre')
-
-    if request.args.get('track'):
-        recommender.tracks = request.args.get('track')
-
-    recommender.track_attributes = {
-        'min_popularity': request.args.get('min_popularity'),
-        'max_popularity': request.args.get('max_popularity'),
-    }
-
+    if request.args.get('q'):
+        q = request.args.get('q')
+        t = request.args.get('t')
+        if t == 'artist':
+            recommender.artists = q
+        elif t == 'track':
+            recommender.tracks = q 
+        else:
+            recommender.genres = q
     recs = recommender.find_recommendations()
     if 'error' in recs:
         print(recs)
@@ -80,7 +71,7 @@ def home():
 
 
 @app.errorhandler(400)
-def page_not_found(e):
+def bad_request(e):
     return jsonify({
         'error': "Bad Request"
     })
@@ -94,14 +85,14 @@ def page_not_found(e):
 
 
 @app.errorhandler(405)
-def page_not_found(e):
+def method_not_allowed(e):
     return jsonify({
-        'error': "Message not allowed."
+        'error': "Method not allowed."
     })
 
 
 @app.errorhandler(500)
-def page_not_found(e):
+def internal_server_error(e):
     return jsonify({
         'error': "Internal server error."
     })
@@ -109,4 +100,4 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 33507))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
