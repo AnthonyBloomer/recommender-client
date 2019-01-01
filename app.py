@@ -50,7 +50,7 @@ def recommendations():
     if request.args.get('track'):
         recommender.tracks = request.args.get('track')
 
-    recommender.tunable_track_attributes = {
+    recommender.track_attributes = {
         'min_popularity': request.args.get('min_popularity'),
         'max_popularity': request.args.get('max_popularity'),
     }

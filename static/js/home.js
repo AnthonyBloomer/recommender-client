@@ -63,6 +63,7 @@ const displayRecommendations = recommendations => {
     });
     theDiv.innerHTML = content
     displayResults()
+    hideAlert()
 }
 
 const searchRecommendations = e => {
