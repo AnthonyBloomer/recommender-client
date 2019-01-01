@@ -1,5 +1,5 @@
-#resultsArea{
-    margin-top: 30px;
+*{
+    border-radius: 0 !important;
 }
 
 html, body{
@@ -28,4 +28,8 @@ html, body{
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+#resultsArea{
+    margin-top: 30px;
 }

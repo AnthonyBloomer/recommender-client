@@ -53,17 +53,29 @@ const displayRecommendations = recommendations => {
     let tracks = recommendations.tracks
     let content = ""
     const theDiv = document.getElementById("resultsArea")
-    content = "<h4>Tracks</h4>"
+    content += "<table class='table table-hover table-bordered'>"
+    content += "<thead class='thead-dark'>"
+    content +=  '<tr>'
+    content +=  '<th scope="col">#</th>'
+    content +=  '<th scope="col">Track</th>'
+    content +=  '<th scope="col">Artist</th>'
+    content +=  '</tr>'
+    content += "</thead>"
+    content += "<tbody>"
+    let count = 1
     tracks.forEach(({name, artists, external_urls}) => {
         let displayName = `${name} - ${artists[0].name}`
         let cleanDisplayName = displayName.replace(/["']/g, "")
-        content += "<div class='row'>"
-        content += "<div class='col-md-12'>"
-        content += `<a style='cursor:pointer' onclick='playSong("${cleanDisplayName}")'>${displayName}</a>`
-        content += "</div>"
-        content += "</div>"
-        content+= "<hr>"
+        content += `<tr style='cursor:pointer' onclick='playSong("${cleanDisplayName}")'>`
+        content += `<th scope="row">${count}</th>`
+        content += `<td>${artists[0].name}</th>`
+        content += `<td>${name}</th>`
+        content += "</tr>"
+        count += 1
+
     });
+    content += "</tbody>"
+    content += "</table>"
     theDiv.innerHTML = content
     displayResults()
 }
