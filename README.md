@@ -2,6 +2,8 @@
 
 A web application to discover new music. Powered using the Spotify Recommendations API.
 
+[https://music-recommender1.herokuapp.com](https://music-recommender1.herokuapp.com)
+
 ## Development
 
 Export the following environment variables:
