@@ -55,13 +55,18 @@ def recommendations():
         'max_popularity': request.args.get('max_popularity'),
     }
 
-    return jsonify(recommender.find_recommendations())
+    recommendations = recommender.find_recommendations()
+    if 'error' in recommendations:
+        print(recommendations)
+
+    return jsonify(recommendations)
 
 
 @app.route("/genres", methods=['POST'])
 def genres():
     genres = load_genres()['genres']
     return jsonify(genres)
+
 
 @app.route("/", methods=['GET'])
 def home():

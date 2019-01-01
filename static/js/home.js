@@ -4,10 +4,10 @@ window.onload = () => {
     request.open("POST", '/genres', true)
     request.onload = () => {
         if (request.status === 200 || request.status === 0) {
-            resp = JSON.parse(request.responseText)
+            let resp = JSON.parse(request.responseText)
             loadGenres(resp)
         } else {
-            displayAlert(JSON.parse(request.responseText), "alert-danger")
+            displayAlert(request.responseText, "alert-danger")
         }
     }
 
@@ -25,14 +25,9 @@ const loadGenres = (genres) => {
             selected = selected.replace("-", ' ');
             displayAlert(`Here's some <span class='capitalize'>${selected}</span> music we thought you'd like...`, "alert-info")
         } else {
-            parsed = JSON.parse(request.responseText)
-            displayAlert(parsed.error, "alert-danger")
+            displayAlert(request.responseText, "alert-danger")
         }
-    };
-    request.onerror = () => {
-        parsed = JSON.parse(request.responseText)
-        displayAlert(parsed.error, "alert-danger")
-    };
+    }
 }
 
 const hideAlert = () => {
@@ -71,17 +66,17 @@ const searchRecommendations = e => {
     request.open('POST', `/recommendations?artist=${artist}`, true)
     request.onload = () => {
         if (request.status == 200) {
-            displayRecommendations(JSON.parse(request.responseText))
+            parsed = JSON.parse(request.responseText)
+            if (parsed.hasOwnProperty('error')){
+                displayAlert(parsed.error.message, "alert-warning")
+            } else {
+                displayRecommendations(parsed)
+            }
         } else {
             parsed = JSON.parse(request.responseText)
-            displayAlert(parsed.error, "alert-danger")
+            displayAlert(parsed.error, "alert-warning")
         }
-    };
-    request.onerror = () => {
-        parsed = JSON.parse(request.responseText)
-        displayAlert(parsed.error, "alert-danger")
-
-    };
+    }
     request.send()
 
 };
@@ -106,16 +101,17 @@ const findSimilarTracks = () => {
     request.open('POST', `/recommendations?track=${track}`, true)
     request.onload = () => {
         if (request.status == 200) {
-            displayRecommendations(JSON.parse(request.responseText))
-        } else {
-            parsed = JSON.parse(request.responseText)
-            displayAlert(parsed.error, "alert-danger")
-        }
-    };
-    request.onerror = () => {
-        parsed = JSON.parse(request.responseText)
-        displayAlert(parsed.error, "alert-danger")
+            let json = JSON.parse(request.responseText)
+            let parsed = JSON.parse(request.responseText)
+            if (parsed.hasOwnProperty('error')){
+                displayAlert("Status: " + parsed.error.status + "Error: " + parsed.error.message, "alert-danger")
+            } else {
+                displayRecommendations(parsed)
+            }
 
+        } else {
+            displayAlert(request.responseText, "alert-warning")
+        }
     };
     request.send()
 }
@@ -132,8 +128,7 @@ const playSong = e => {
             displayAlert(`<i class='fas fa-play'></i> Playing <a href='#' onclick='displayVideo()'>${e}</a>.`, "alert-info")
             document.getElementById("moreLikeThis").name = e
         } else {
-            parsed = JSON.parse(request.responseText)
-            displayAlert(parsed.error, "alert-danger")
+            displayAlert("Could not load video.", "alert-danger")
         }
     };
     request.onerror = () => {
