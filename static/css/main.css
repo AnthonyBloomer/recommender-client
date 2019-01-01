@@ -10,10 +10,6 @@ html, body{
     cursor: pointer;
 }
 
-.container{
-    width: 1000px;
-}
-
 .capitalize {
     text-transform: capitalize;   
 }
