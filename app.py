@@ -22,7 +22,7 @@ def genres():
 
 @app.errorhandler(400)
 def bad_request(e):
-    newrelic.agent.record_exception(e)
+    newrelic.agent.record_exception()
     return jsonify({
         'error': "Bad Request"
     })
@@ -30,7 +30,7 @@ def bad_request(e):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    newrelic.agent.record_exception(e)
+    newrelic.agent.record_exception()
     return jsonify({
         'error': "Page not Found"
     })
@@ -38,7 +38,7 @@ def page_not_found(e):
 
 @app.errorhandler(405)
 def method_not_allowed(e):
-    newrelic.agent.record_exception(e)
+    newrelic.agent.record_exception()
     return jsonify({
         'error': "Method not allowed."
     })
@@ -46,7 +46,7 @@ def method_not_allowed(e):
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    newrelic.agent.record_exception(e)
+    newrelic.agent.record_exception()
     return jsonify({
         'error': "Internal server error."
     })
@@ -71,8 +71,6 @@ def recommendations():
         else:
             recommender.genres = q
     recs = recommender.find_recommendations()
-    if 'error' in recs:
-        print(recs)
     return jsonify(recs)
 
 
@@ -98,8 +96,6 @@ def play():
 
 def make_request(url, params):
     req = requests.get(url, params=params)
-    if not req.ok:
-        print(req.content)
     return req.json()
 
 
