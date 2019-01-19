@@ -25,3 +25,9 @@ Launch a development server:
 ``` bash
 python app.py
 ```
+
+Run in production:
+
+```
+gunicorn -w 4 app:app
+```
