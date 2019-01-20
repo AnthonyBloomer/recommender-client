@@ -68,8 +68,8 @@ const displayRecommendations = recommendations => {
         let cleanDisplayName = displayName.replace(/["']/g, "")
         content += `<tr style='cursor:pointer' onclick='playSong("${cleanDisplayName}")'>`
         content += `<th scope="row">${count}</th>`
-        content += `<td>${artists[0].name}</th>`
         content += `<td>${name}</th>`
+        content += `<td>${artists[0].name}</th>`
         content += "</tr>"
         count += 1
 
