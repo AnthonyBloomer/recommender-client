@@ -1,8 +1,8 @@
 # Music Recommender
 
-A web application to discover new music. Powered using the Spotify Recommendations API.
+Music recommendation client powered using the Spotify Recommendations API.
 
-[https://music-recommender1.herokuapp.com](https://music-recommender1.herokuapp.com)
+View on Heroku: [https://music-recommender1.herokuapp.com](https://music-recommender1.herokuapp.com)
 
 ## Development
 
