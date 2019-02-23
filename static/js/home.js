@@ -98,7 +98,7 @@ const searchRecommendations = e => {
             } else {
                 displayRecommendations(parsed)
                 if (typeof newrelic == 'object') {
-                    newrelic.addPageAction('search-performed', {searchQuery: searchQuery, searchType, searchType});
+                    newrelic.addPageAction('search-performed', {'searchQuery': searchQuery, 'searchType', searchType});
                 }
             }
         } else {
@@ -135,7 +135,7 @@ const findSimilarTracks = () => {
                 displayAlert(`Status: ${parsed.error.status}Error: ${parsed.error.message}`, "alert-danger")
             } else {
                 if (typeof newrelic == 'object') {
-                    newrelic.addPageAction('user-clicked-find-similar', {result: 'success'});
+                    newrelic.addPageAction('user-clicked-find-similar', {'result': 'success'});
                 }
                 displayRecommendations(parsed)
             }
@@ -159,7 +159,7 @@ const playSong = e => {
             displayAlert(`<i class='fas fa-play'></i> Playing <a href='#' onclick='displayVideo()'>${e}</a>.`, "alert-info")
             document.getElementById("moreLikeThis").name = e
             if (typeof newrelic == 'object') {
-                newrelic.addPageAction('song-played', {song-name: e});
+                newrelic.addPageAction('song-played', {'song-name': e});
             }
         } else {
             displayAlert("Could not load video.", "alert-danger")
