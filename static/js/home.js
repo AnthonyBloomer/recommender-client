@@ -98,7 +98,7 @@ const searchRecommendations = e => {
             } else {
                 displayRecommendations(parsed)
                 if (typeof newrelic == 'object') {
-                    newrelic.addPageAction('search-performed', {'searchQuery': searchQuery, 'searchType', searchType});
+                    newrelic.addPageAction('search-performed', {'searchQuery': searchQuery, 'searchType': searchType});
                 }
             }
         } else {
