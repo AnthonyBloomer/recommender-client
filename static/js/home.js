@@ -1,12 +1,15 @@
 const request = new XMLHttpRequest()
 
+const toggleElement = (eleToHide, eleToShow) => {
+	document.getElementById(eleToHide).style.display = 'none'
+	document.getElementById(eleToShow).style.display = 'block'
+}
+
 document.getElementById('searchTypeSelector').addEventListener('input', function (evt) {
     if (this.value === 'genre'){
-        document.getElementById('searchQuery').style.display = 'none'
-        document.getElementById('genreSelector').style.display = 'block'
+		toggleElement('searchQuery', 'genreSelector')
     } else {
-        document.getElementById('genreSelector').style.display = 'none'
-        document.getElementById('searchQuery').style.display = 'block'
+        toggleElement('genreSelector', 'searchQuery')
     }
 });
 
@@ -24,6 +27,14 @@ window.onload = () => {
     request.send(null)
 }
 
+const toTitleCase = (phrase) => {
+  return phrase
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
 const loadGenres = (genres) => {
     const shuffled = genres.sort(() => .5 - Math.random())
     let selected = shuffled.slice(0, 1).join()
@@ -31,6 +42,7 @@ const loadGenres = (genres) => {
     request.send()
     request.onload = () => {
         if (request.status == 200) {
+			displayAlert(`Here's some ${toTitleCase(selected.replace("-", " "))} tracks recommended for you...`, 'alert-info')
             displayRecommendations(JSON.parse(request.responseText))
         } else {
             displayAlert(request.responseText, "alert-danger")
@@ -116,13 +128,11 @@ const loadYoutubeFrame = videoId => {
 }
 
 const displayResults = () => {
-    document.getElementById("videoArea").style.display = 'none'
-    document.getElementById("resultsArea").style.display = 'block'
+	toggleElement('videoArea', 'resultsArea')
 }
 
 const displayVideo = () => {
-    document.getElementById("resultsArea").style.display = 'none'
-    document.getElementById("videoArea").style.display = 'block'
+    toggleElement('resultsArea', 'videoArea')
 }
 
 const findSimilarTracks = () => {
