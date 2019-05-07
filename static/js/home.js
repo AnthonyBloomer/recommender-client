@@ -102,6 +102,10 @@ const searchRecommendations = e => {
     searchQuery = document.getElementById("genreSelector").value
   } else {
     searchQuery = document.getElementById("searchQuery").value
+		if (searchQuery.length === 0 || !searchQuery.trim()){
+			displayAlert("Search query can't be empty.", "alert-warning")
+			return false
+		}
   }
   request.open('POST', `/recommendations?q=${searchQuery}&t=${searchType}`, true)
   request.onload = () => {
