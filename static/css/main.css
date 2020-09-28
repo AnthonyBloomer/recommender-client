@@ -1,0 +1,35 @@
+*{
+    border-radius: 0 !important;
+}
+
+html, body{
+    font-size: 16px;
+}
+
+.fa-play-circle{
+    cursor: pointer;
+}
+
+.capitalize {
+    text-transform: capitalize;   
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#resultsArea{
+    margin-top: 30px;
+}

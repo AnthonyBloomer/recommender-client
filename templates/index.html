@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div style="display:none" id="alertBox">
+        <div class="alert" role="alert">
+          <span id="alertMessage"></span>
+        </div>
+      </div>
+      <form id="searchForm">
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text input-lg" id="basic-addon1"><i
+              class="fas fa-search"></i></span>
+          </div>
+          <select style='display:none' id="genreSelector" name="genre" class="form-control form-control-lg input-lg">
+            {% for genre in genres %}
+            <option class="form-control input-lg" value="{{ genre }}">{{ genre }}</option>
+            {% endfor %}
+          </select>
+          <input id="searchQuery" name="artist" class="form-control form-control-lg input-lg" placeholder="Enter search query...">
+          <div class="input-group-addon">
+            <select class="form-control-lg" id="searchTypeSelector">
+              <option value="artist">Artist</option>
+              <option value="track">Track</option>
+              <option value="genre">Genre</option>
+            </select>
+          </div>
+          <div class="input-group-addon">
+            <button id="findRecommendations" class="btn btn-primary btn-lg" type="button">Search</button>
+          </div>
+        </div>
+      </form>
+      <div style="display: none" id="videoArea">
+        <div class="card">
+          <div class="card-body">
+            <div id="ytplayer">
+              <div class="video-container">
+                <iframe id='video' frameborder="0" src=''></iframe>
+              </div>
+
+            </div>
+            <br>
+            <a class="btn btn-info" onclick="displayResults()" href="#"><i class="fas fa-chevron-left"></i> Back to
+              results</a>
+            <button onclick="findSimilarTracks()" id="moreLikeThis" class="btn btn-primary"><i
+                class="fas fa-headphones-alt"></i> More like this
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id='resultsArea'>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
