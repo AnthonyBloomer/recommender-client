@@ -17,7 +17,7 @@ MarkupSafe==1.1.0
 mccabe==0.6.1
 music-recommender==1.0.5
 newrelic==4.8.0.110
-pylint==2.5.0
+pylint==2.7.0
 requests==2.21.0
 singledispatch==3.4.0.3
 six==1.12.0
